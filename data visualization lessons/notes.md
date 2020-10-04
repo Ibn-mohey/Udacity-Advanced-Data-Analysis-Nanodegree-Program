@@ -450,6 +450,61 @@ def sqrtscaller(df,c,step):
     plt.xticks(tick_locs, sqrt_trans(tick_locs, inverse = True).astype(int))
 ```
 
+---
+
+
+##04.Bivariate Exploration of Data Videos
+
+three major bivariate plots
+
+1. scatter for quantitative vs quantitative
+2. violin for quantitative vs qualitative
+3. clustered bar charts for qualitative vs qualitative
+
+### scatter
+
+If we want to inspect the **relationship** between two **numeric** **variables**, the standard choice of plot is the scatterplot.
+In a scatterplot, each data point is plotted **individually** as a **point**, its **x**-**position** corresponding to one feature value and its **y**-**position** corresponding to the second.
+the pattern of points shows what is the relationship betweet the 2 variables
+we quantifying throw corelation coefficient like **pearson**
+
+
+#### plot
+One basic way of creating a scatterplot is through **Matplotlib**'s scatter function:
+```py
+plt.scatter(data = df, x = 'num_var1', y = 'num_var2')
+```
+#### Alternative Approach
+
+```py
+sb.regplot(data = df, x = 'num_var1', y = 'num_var2')
+```
+
+
+By default, the regression function is linear, and includes a shaded confidence region for the regression estimate. In this case, since the trend looks like a \text{log}(y) \propto xlog(y)∝x relationship (that is, linear increases in the value of x are associated with linear increases in the log of y), plotting the regression line on the raw units is not appropriate. If we don't care about the regression line, then we could set fit_reg = False in the regplot function call. Otherwise, if we want to plot the regression line on the observed relationship in the data, we need to transform the data, as seen in the previous lesson.
+
+```py
+def log_trans(x, inverse = False):
+    if not inverse:
+        return np.log10(x)
+    else:
+        return np.power(10, x)
+
+sb.regplot(df['num_var1'], df['num_var2'].apply(log_trans))
+tick_locs = [10, 20, 50, 100, 200, 500]
+plt.yticks(log_trans(tick_locs), tick_locs)
+```
+![](l4-c02-scatterplot2.png) to ![](l4-c02-scatterplot3.png)
+when it's hard to look at
+1. have very large numbers f data points
+2. our numeric data is actuallu dicrete in natural
+
+
+
+
+
+
+
 
 # Lesson 6: Explanatory Visualizations
 This lesson describes considerations that should be made when moving from exploratory data analysis to explanatory analysis. When polishing visualizations to present to others, you will need to consider what findings you want to focus on and how to use visualization techniques to highlight your main story. This lesson also provides tips for presentation of results and how to iterate on your presentations.
